@@ -59,3 +59,4 @@ D:\Sistema\curso\IWantApp\obj\Debug\net6.0\refint\IWantApp.dll
 D:\Sistema\curso\IWantApp\obj\Debug\net6.0\IWantApp.pdb
 D:\Sistema\curso\IWantApp\obj\Debug\net6.0\IWantApp.genruntimeconfig.cache
 D:\Sistema\curso\IWantApp\obj\Debug\net6.0\ref\IWantApp.dll
+D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Flunt.dll

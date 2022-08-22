@@ -1,8 +1,10 @@
-﻿namespace IWantApp.Domain;
+﻿using Flunt.Notifications;
+
+namespace IWantApp.Domain;
 
 
 //abstract so pode ser herdada e não instanciada 
-public abstract class Entity
+public abstract class Entity : Notifiable<Notification>
 {
 
     public Guid Id { get; set; }

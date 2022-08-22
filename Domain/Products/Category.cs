@@ -1,7 +1,20 @@
-﻿namespace IWantApp.Domain.Products;
+﻿using Flunt.Validations;
+namespace IWantApp.Domain.Products;
 
 public class Category : Entity
 { 
     public string Name { get; set; }
-    public bool Active { get; set; } = true; //propriedade para saber se esta ativa ou não
+    public bool Active { get; set; }
+
+
+   public Category(string name)
+    {
+        var contract = new Contract<Category>()
+            .IsNotNullOrWhiteSpace(name, "Name");
+
+        AddNotifications(contract);
+        Name = name;
+        Active = true;
+    }
+
 }

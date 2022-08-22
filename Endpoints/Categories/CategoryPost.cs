@@ -13,14 +13,22 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        var category = new Category
+        
+        //if(string.IsNullOrWhiteSpace(categoryRequest.Name))
+        //    return Results.BadRequest("Name is required");
+
+        var category = new Category(categoryRequest.Name)
         {
-            Name = categoryRequest.Name,
+       
             CreatedBy = "Luando",
             CreatedOn = DateTime.Now,
             EditedBy = "Luando",
             EditedOn = DateTime.Now
         };
+
+        if (!category.IsValid)
+            return Results.BadRequest(category.Notifications);
+
         context.Categories.Add(category);
         context.SaveChanges();
 
