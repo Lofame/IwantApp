@@ -1,12 +1,13 @@
 ﻿using IWantApp.Date;
 using IWantApp.Domain.Products;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace IWantApp.Endpoints.Employee;
 
 public class EmployeePost
 {
-    public static string Template => "/employee";
+    public static string Template => "/employees";
 
     public static string[] Methods = new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
@@ -21,7 +22,18 @@ public class EmployeePost
 
         if (!result.Succeeded)
             return Results.BadRequest(result.Errors.First());
-       
+
+        var userClaims = new List<Claim>
+        {
+            new Claim("EmployeeCode",employeeRequest.EmployeeCode),
+            new Claim("Name", employeeRequest.Name)
+        };
+
+        var claimResult = userManager.AddClaimsAsync(user, userClaims).Result;
+
+
+        if (!claimResult.Succeeded)
+            return Results.BadRequest(claimResult.Errors.First());
 
         return Results.Created($"/employees/{user.Id}", user.Id);
     }
