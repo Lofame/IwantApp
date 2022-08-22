@@ -21,8 +21,8 @@ public class CategoryPost
 
         if (!category.IsValid)
         {
-            var erros = category.Notifications.GroupBy(g => g.Key).ToDictionary(g => g.Key, g => g.Select(x => x.Message).ToArray());
-            return Results.ValidationProblem(erros); //mensagem padrao de erro Api pelo ValodationProblem
+            //ConvertToProblemsDatails() é uma classe extendida
+            return Results.ValidationProblem(category.Notifications.ConvertToProblemsDatails()); //mensagem padrao de erro Api pelo ValodationProblem
         }
             
 
