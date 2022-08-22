@@ -15,14 +15,18 @@ public class CategoryPut
     public static IResult Action([FromRoute] Guid Id,CategoryRequest categoryRequest, ApplicationDbContext context)
     {
        var caregory = context.Categories.Where(c => c.Id == Id).FirstOrDefault();
-        if (caregory != null)
-        {
-            caregory.Name = categoryRequest.Name;
-            caregory.Active = categoryRequest.Active;
-            context.SaveChanges();
-            return Results.Ok();
-        }
-        return Results.Problem();
+        if (caregory == null)
+            return Results.Problem();
+
+        caregory.EditInfo(categoryRequest.Name, categoryRequest.Active);
+
+            if (!caregory.IsValid)
+            return Results.ValidationProblem(caregory.Notifications.ConvertToProblemsDatails());
+       
+        context.SaveChanges();
+        return Results.Ok();
+        
+        
         
     }
 

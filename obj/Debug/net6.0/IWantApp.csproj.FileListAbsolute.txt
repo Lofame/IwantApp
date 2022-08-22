@@ -60,3 +60,8 @@ D:\Sistema\curso\IWantApp\obj\Debug\net6.0\IWantApp.pdb
 D:\Sistema\curso\IWantApp\obj\Debug\net6.0\IWantApp.genruntimeconfig.cache
 D:\Sistema\curso\IWantApp\obj\Debug\net6.0\ref\IWantApp.dll
 D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Flunt.dll
+D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
