@@ -13,21 +13,18 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        
+
         //if(string.IsNullOrWhiteSpace(categoryRequest.Name))
         //    return Results.BadRequest("Name is required");
 
-        var category = new Category(categoryRequest.Name)
-        {
-       
-            CreatedBy = "Luando",
-            CreatedOn = DateTime.Now,
-            EditedBy = "Luando",
-            EditedOn = DateTime.Now
-        };
+        var category = new Category(categoryRequest.Name, "luando", "luando");
 
         if (!category.IsValid)
-            return Results.BadRequest(category.Notifications);
+        {
+            var erros = category.Notifications.GroupBy(g => g.Key).ToDictionary(g => g.Key, g => g.Select(x => x.Message).ToArray());
+            return Results.ValidationProblem(erros); //mensagem padrao de erro Api pelo ValodationProblem
+        }
+            
 
         context.Categories.Add(category);
         context.SaveChanges();
