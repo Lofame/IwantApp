@@ -1,5 +1,7 @@
 ﻿using IWantApp.Date;
 using IWantApp.Domain.Products;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace IWantApp.Endpoints.Categories;
 
@@ -10,14 +12,14 @@ public class CategoryPost
     public static string[] Methods = new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-
-    public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
+    [Authorize]
+    public async static Task<IResult> Action(CategoryRequest categoryRequest,HttpContext http, ApplicationDbContext context)
     {
 
         //if(string.IsNullOrWhiteSpace(categoryRequest.Name))
         //    return Results.BadRequest("Name is required");
-
-        var category = new Category(categoryRequest.Name, "luando", "luando");
+        var userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var category = new Category(categoryRequest.Name, userId, userId);
 
         if (!category.IsValid)
         {
@@ -26,8 +28,8 @@ public class CategoryPost
         }
             
 
-        context.Categories.Add(category);
-        context.SaveChanges();
+       await context.Categories.AddAsync(category);
+       await context.SaveChangesAsync();
 
 
 

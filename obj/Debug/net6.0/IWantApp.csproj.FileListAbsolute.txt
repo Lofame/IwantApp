@@ -66,3 +66,4 @@ D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityF
 D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
 D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Dapper.dll
+D:\Sistema\curso\IWantApp\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

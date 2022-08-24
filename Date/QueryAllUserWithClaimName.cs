@@ -28,4 +28,21 @@ public class QueryAllUserWithClaimName
             new { page, rows }
             );
     }
+
+        public async Task<IEnumerable<EmployeeResponse>> ExecuteAsync(int page, int rows)
+        {
+            var db = new SqlConnection(configuration["ConnectionStrings:IWantDb"]);
+
+            var t = configuration["ConnectionStrings:IWantDb"];
+            var query = @"select Email,claimvalue as name 
+              from AspNetUsers u inner 
+              join AspNetUserClaims c on u.id = c.userId and claimtype = 'Name'
+              order by name
+              OFFSET (@page -1) * @rows ROWS FETCH NEXT @rows ROWS ONLY";
+            return await db.QueryAsync<EmployeeResponse>(
+                query,
+                new { page, rows }
+                );
+        }
+    
 }
