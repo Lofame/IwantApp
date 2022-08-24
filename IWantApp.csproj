@@ -7,15 +7,15 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="Microsoft.AspNetCore.Identity"/>
-		<Using Include="Dapper"/>
-		<Using Include="Microsoft.Data.SqlClient"/>
-		<Using Include="Microsoft.AspNetCore.Authorization"/>
-		<Using Include="System.Security.Claims"/>
-		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
-		<Using Include="Microsoft.IdentityModel.Tokens"/>
-		<Using Include="System.Text"/>
-		<Using Include="Flunt.Validations"/>
+		<Using Include="Microsoft.AspNetCore.Identity" />
+		<Using Include="Dapper" />
+		<Using Include="Microsoft.Data.SqlClient" />
+		<Using Include="Microsoft.AspNetCore.Authorization" />
+		<Using Include="System.Security.Claims" />
+		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<Using Include="Microsoft.IdentityModel.Tokens" />
+		<Using Include="System.Text" />
+		<Using Include="Flunt.Validations" />
 	</ItemGroup>
 
   <ItemGroup>
@@ -33,7 +33,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
 </Project>

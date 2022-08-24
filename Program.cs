@@ -3,8 +3,24 @@ using IWantApp.Endpoints.Categories;
 using IWantApp.Endpoints.Employee;
 using IWantApp.Endpoints.Security;
 using Microsoft.AspNetCore.Diagnostics;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseSerilog((context, configuration) =>
+{
+    configuration
+    .WriteTo.Console()
+    .WriteTo.MSSqlServer(
+        context.Configuration["ConnectionStrings:IWantDb"],
+        sinkOptions: new MSSqlServerSinkOptions()
+        {
+            AutoCreateSqlTable = true,
+            TableName = "LogAPI"
+        });
+});
+
 
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["ConnectionStrings:IWantDb"]);
 
@@ -86,10 +102,10 @@ app.Map("/error", (HttpContext http) =>
 
      if(error != null)
      {
-         if(error is SqlException)
-             return Results.Problem(title: "Database out",statusCode: 500)
+         if (error is SqlException)
+             return Results.Problem(title: "Database out", statusCode: 500);
      }
-     return Results.Problem(title:"An error ocurred", statusCode: 500)
+     return Results.Problem(title: "An error ocurred", statusCode: 500);
  });
 
 
