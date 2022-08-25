@@ -10,16 +10,18 @@ using System.Text;
 public class TokenPost
 {
 
-
-
-
     public static string Template => "/token";
 
     public static string[] Methods = new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
     [AllowAnonymous]
-    public static IResult Action(LoginRequest loginRequest,IConfiguration configuration, UserManager<IdentityUser> userManager, ILogger<TokenPost> log)
+    public static IResult Action(
+        LoginRequest loginRequest,
+        IConfiguration configuration, 
+        UserManager<IdentityUser> userManager, 
+        ILogger<TokenPost> log,
+        IWebHostEnvironment environment)
     {
 
         log.LogInformation("Getting token");
@@ -50,7 +52,7 @@ public class TokenPost
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = configuration["JwtBearerTokenSetting:Audience"],
             Issuer = configuration["JwtBearerTokenSetting:Issuer"],
-            Expires = DateTime.UtcNow.AddSeconds(30)
+            Expires = environment.IsDevelopment() || environment.IsStaging() ? DateTime.UtcNow.AddDays(365) : DateTime.UtcNow.AddHours(1)
         };
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);

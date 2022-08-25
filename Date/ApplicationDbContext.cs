@@ -20,12 +20,15 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
         builder.Ignore<Notification>();
 
-
+        //seta parametros no banco de dados quando gerar a migrations
         builder.Entity<Product>()
             .Property(p => p.Name).IsRequired();
 
         builder.Entity<Product>()
            .Property(p => p.Description).HasMaxLength(255);
+        builder.Entity<Product>()
+           .Property(p => p.Price).HasColumnType("decimal(10,2)").IsRequired();
+
         builder.Entity<Category>()
            .Property(p => p.Name).IsRequired();
     }

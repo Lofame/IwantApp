@@ -1,8 +1,5 @@
-using IWantApp.Date;
-using IWantApp.Endpoints.Categories;
-using IWantApp.Endpoints.Employee;
-using IWantApp.Endpoints.Security;
-using Microsoft.AspNetCore.Diagnostics;
+using IWantApp.Domain.Products;
+using IWantApp.Endpoints.Products;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 
@@ -93,6 +90,10 @@ app.MapMethods(CategoryPost.Template, CategoryPost.Methods, CategoryPost.Handle)
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
+app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
+app.MapMethods(ProductGellAll.Template, ProductGellAll.Methods, ProductGellAll.Handle);
+app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Methods, ProductGetShowcase.Handle);
+
 
 app.UseExceptionHandler("/error");
 
@@ -104,6 +105,8 @@ app.Map("/error", (HttpContext http) =>
      {
          if (error is SqlException)
              return Results.Problem(title: "Database out", statusCode: 500);
+         if(error is BadHttpRequestException)
+             return Results.Problem(title: "Error to convert data to other type. See all the information sent", statusCode: 500);
      }
      return Results.Problem(title: "An error ocurred", statusCode: 500);
  });

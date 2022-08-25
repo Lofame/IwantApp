@@ -15,7 +15,13 @@
 		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 		<Using Include="Microsoft.IdentityModel.Tokens" />
 		<Using Include="System.Text" />
+		<Using Include="Microsoft.EntityFrameworkCore" />
+		<Using Include="IWantApp.Date" />
+		<Using Include="IWantApp.Endpoints.Categories" />
 		<Using Include="Flunt.Validations" />
+		<Using Include="IWantApp.Endpoints.Security" />
+		<Using Include="Microsoft.AspNetCore.Diagnostics" />
+		<Using Include="IWantApp.Endpoints.Employee" />
 	</ItemGroup>
 
   <ItemGroup>
