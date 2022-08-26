@@ -1,6 +1,7 @@
 using IWantApp.Domain.Products;
 using IWantApp.Domain.Users;
 using IWantApp.Endpoints.Clients;
+using IWantApp.Endpoints.Orders;
 using IWantApp.Endpoints.Products;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
@@ -41,6 +42,7 @@ builder.Services.AddAuthorization(options =>
     .RequireAuthenticatedUser()
     .Build();
     options.AddPolicy("EmployeePolicy", p => p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
+    options.AddPolicy("CpfPolicy", p => p.RequireAuthenticatedUser().RequireClaim("Cpf"));
     options.AddPolicy("Employee005Policy", p => p.RequireAuthenticatedUser().RequireClaim("EmployeeCode","005"));
 });
 
@@ -100,6 +102,9 @@ app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
 app.MapMethods(ProductGellAll.Template, ProductGellAll.Methods, ProductGellAll.Handle);
 app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Methods, ProductGetShowcase.Handle);
 app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
+app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
+app.MapMethods(OderGet.Template, OderGet.Methods, OderGet.Handle);
 
 
 app.UseExceptionHandler("/error");

@@ -1,6 +1,8 @@
-﻿namespace IWantApp.Domain.Products;
+﻿using IWantApp.Domain.Orders;
 
-public class Product :Entity
+namespace IWantApp.Domain.Products;
+
+public class Product : Entity
 {
     //public Guid Id { get; set; }
     public string Name { get; private set; }
@@ -10,6 +12,7 @@ public class Product :Entity
     public bool HasStock { get; private set; }
     public bool Active { get; private set; }
     public decimal Price { get; private set; }
+    public ICollection<Order> Orders { get; private set; }
 
     public Product()
     {
