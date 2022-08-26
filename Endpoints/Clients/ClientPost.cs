@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using IWantApp.Domain.Users;
+using System.Globalization;
 
 namespace IWantApp.Endpoints.Clients;
 
@@ -11,29 +12,25 @@ public partial class ClientPost
     public static Delegate Handle => Action;
 
     [AllowAnonymous]
-    public async static Task<IResult> Action(ClientRequest clientRequest, HttpContext http, UserManager<IdentityUser> userManager)
+    public async static Task<IResult> Action(ClientRequest clientRequest, UserCreator userCreator)
     {
-        var userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var newUser = new IdentityUser { UserName = clientRequest.Email, Email = clientRequest.Email };
-
-        var result = await userManager.CreateAsync(newUser, clientRequest.Password);
-
-        if (!result.Succeeded)
-            return Results.ValidationProblem(result.Errors.ConvertToProblemsDatails());
-
         var userClaims = new List<Claim>
         {
             new Claim("Cpf",clientRequest.Cpf),
             new Claim("Name", clientRequest.Name),
-            
+
         };
 
-        var claimResult = await userManager.AddClaimsAsync(newUser, userClaims);
+        (IdentityResult identity, string userId) result =
+            await userCreator.Create(clientRequest.Email, clientRequest.Password, userClaims);
 
 
-        if (!claimResult.Succeeded)
-            return Results.ValidationProblem(result.Errors.ConvertToProblemsDatails());
+     
 
-        return Results.Created($"/clients/{newUser.Id}", newUser.Id);
+        if (!result.identity.Succeeded)
+            return Results.ValidationProblem(result.identity.Errors.ConvertToProblemsDatails());
+
+
+        return Results.Created($"/clients/{result.userId}", result.userId);
     }
 }

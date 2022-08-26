@@ -1,4 +1,6 @@
 using IWantApp.Domain.Products;
+using IWantApp.Domain.Users;
+using IWantApp.Endpoints.Clients;
 using IWantApp.Endpoints.Products;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
@@ -46,6 +48,7 @@ builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+   
 }).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters()
     {
@@ -62,6 +65,7 @@ builder.Services.AddAuthentication(x =>
 
 
 builder.Services.AddScoped<QueryAllUserWithClaimName>();
+builder.Services.AddScoped<UserCreator>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -69,16 +73,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-app.UseAuthentication();
-app.UseAuthorization();
+
 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 
@@ -93,6 +99,7 @@ app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
 app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
 app.MapMethods(ProductGellAll.Template, ProductGellAll.Methods, ProductGellAll.Handle);
 app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Methods, ProductGetShowcase.Handle);
+app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 
 
 app.UseExceptionHandler("/error");
